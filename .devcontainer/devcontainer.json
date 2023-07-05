@@ -1,0 +1,21 @@
+# Utilize a imagem de base do Codespaces com Node.js
+FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-16
+
+# Instale as dependências necessárias para o Robot Framework e servidor web
+RUN apt-get update \
+    && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get -y install --no-install-recommends \
+        python3 \
+        python3-pip \
+        firefox \
+        xvfb \
+        ...
+
+# Instale o Robot Framework globalmente
+RUN pip3 install robotframework
+
+# Defina o diretório de trabalho
+WORKDIR /workspace
+
+# Exemplo: Inicie o servidor web e o Firefox em modo headless
+CMD [ "xvfb-run", "--server-args='-screen 0 1024x768x24'","npm", "start" ]
